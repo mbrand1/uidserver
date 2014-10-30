@@ -1,0 +1,49 @@
+<!doctype html>
+<html>
+<head>
+	<title>UID</title>
+	<link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap/3.3.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
+	<style>
+		h1, .h1	{ font-size: 46px; }
+		body    { padding-top:10px; }
+	</style>
+</head>
+<body>
+<div class="container">
+	{% if data.tracked %}
+		<p class="text-danger h1 text-center"><span class="fa fa-frown-o"> Tracking Beacons found!</p>
+		{% for beacon in data.beacons %}
+			<div class="alert alert-danger text-center" role="alert">
+				<strong>{{ beacon }}</strong>
+			</div>
+		{% endfor %}
+	{% else %}
+		<p class="text-success h1 text-center"><span class="fa fa-smile-o"> No Tracking Beacons found.</p>
+	{% endif %}
+	<div class="well">
+			<table class="table">
+				<thead>
+					<tr>
+						<th colspan="2"><p class="h1">Browser Information</p></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>IP Address</td>
+						<td><span class="text-info">{{ data.ip }}</span></td>
+					</tr>
+					<tr>
+						<td>User Agent</td>
+						<td><span class="text-info">{{ data.useragent }}</span></td>
+					</tr>
+					<tr>
+						<td>Do Not Track</td>
+						<td><span class="text-info">{{ data.dnt }}</span></td>
+					</tr>
+				</tbody>
+			</table>
+	</div>
+</div>
+</body>
+</html>
