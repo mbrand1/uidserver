@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 app = Flask(__name__)
 
-@app.route("/<otype>")
+@app.route("/api")
 @app.route("/")
-def showheaders(otype=None):
+def index():
 	rh = request.headers
 
 	# Beacons for testing: uncomment these to force a tracking beacon through
@@ -44,8 +44,8 @@ def showheaders(otype=None):
 			'acr' : rh.get('X-ACR'),
 			}		
 
-	# Check output type (otype) for how to return data
-	if (otype == 'json'):
+	# See if the API path was hit -- if so, send JSON instead of a page
+	if (request.path == '/api'):
 		# Render as JSON
 		return jsonify(data)
 	else:
