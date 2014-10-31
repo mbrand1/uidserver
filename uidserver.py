@@ -5,11 +5,12 @@ app = Flask(__name__)
 @app.route("/")
 def index():
 	rh = request.headers
+#	print repr(rh)
 
 	# Beacons for testing: uncomment these to force a tracking beacon through
 	testbeacons = {
 #					'x-uidh' : "da89f98sfiasdfw-lh2345h2kj34h23k2234j2k3ljr289asfasdfasdfkasd--fas9f0asdfas",
-#					'x-acr' : "ASDHFASDFAS89DFASDFASDJKFSF0WKJWFKWE-JASDKFASFASDFADFA-ASDFASDFKASDFJAKLSDJFLAKSDFJASKDJFAKDFA",
+#					'x-acr' : "ASDHFASDFAS89DFASDFASDJKFSF0WKJWFKWklajdlfkajsdlkfjaskldjfajsdkfasdlkasdjfasdlasdkfjasdfasdlfskldjfklasjdklaiewrqwnernqwejrlbqwejrbqjkwebrjqbwerjbqweblhhhhhhhhhasuidfhasudfhasdhfasdfjwhefuiw7889wef999999999999asd8fasdf8a9sdfasd8fas9dfas89df7a89sd7f89as7dfa8sd9fas89daffdsE-JASDKFASFASDFADFA-ASDFASDFKASDFJAKLSDJFLAKSDFJASKDJFAKDFA",
 					} 
 
 	# Check for beacons
@@ -20,6 +21,9 @@ def index():
 		track = True
 	if rh.get('X-ACR'):
 		beacons.append(rh.get('X-ACR'))
+		track = True
+	if rh.get('X-VF-ACR'):
+		beacons.append(rh.get('X-VF-ACR'))
 		track = True
 	for k, v in testbeacons.items():
 		if k == 'x-uidh':
@@ -42,6 +46,7 @@ def index():
 			'beacons' : beacons,
 			'uidh' : rh.get('X-UIDH'),
 			'acr' : rh.get('X-ACR'),
+			'vfacr' : rh.get('X-VF-ACR'),
 			}		
 
 	# See if the API path was hit -- if so, send JSON instead of a page

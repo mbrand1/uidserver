@@ -6,7 +6,11 @@
 	<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.2.0/css/font-awesome.min.css">
 	<style>
 		h1, .h1	{ font-size: 46px; }
-		body    { padding-top:10px; }
+		body    { font-size: 20px; word-wrap: break-word; padding-top:10px; }
+
+		#footer {
+		/*	background-color: #f5f5f5; */
+		}
 	</style>
 </head>
 <body>
@@ -14,7 +18,7 @@
 	{% if data.tracked %}
 		<p class="text-danger h1 text-center"><span class="fa fa-frown-o"> Tracking Beacons found!</p>
 		{% for beacon in data.beacons %}
-			<div class="alert alert-danger text-center" role="alert">
+			<div class="alert alert-danger" role="alert">
 				<strong>{{ beacon }}</strong>
 			</div>
 		{% endfor %}
@@ -43,7 +47,50 @@
 					</tr>
 				</tbody>
 			</table>
+
+	<p class="text-center"><button type="button" class="btn btn-default" data-toggle="collapse" data-target="#more-info" aria-expanded="false" aria-controls="more-info">
+		<span style="font-size:36px">MORE INFORMATION &raquo;</span>
+	</button></p>
+
+	<div id="more-info" class="collapse">
+		<p class="h1">Tracking Beacons</p>
+		<hr style="height: 2px; border: none; color: #DDD; background-color: #DDD;" />
+<p>Your mobile provider could be tracking you with a unique ID that you cannot remove. If you see a tracking beacon above, that code is being used to track you.</p>
+
+<p class="h2">Why are they doing this?</p>
+<p>They want to target you with advertising in <em>real time</em>.  Selling your information provides cellular carriers with an unlimited revenue stream.  Advertisers that are part of the program can query Verizon, AT&T, etc with the code to immediately find out more information about you.</p>
+
+<p class="h2">Can I opt out?</p>
+<p>No.  The code is injected into your browsing session after it leaves your phone and before it reaches a website.  It's totally controlled by your cellular carrier.  This also means that anyone else that runs a website can view the same code.  They might not know what it means, but they can certainly use it to distinguish your session from another.  If I own more than one site, I can use it to track you as well.</p>
+
+<p class="h2">So what can I do?</p>
+<p>The code is only sent during regular unencrypted transmissions.  Some ways to get around it include:
+<ul>
+	<li>Encrypt all your traffic / Only use HTTPS connections (not possible with all sites, though). A tool like <a href="https://www.eff.org/https-everywhere">HTTPS Everywhere</a> can help.</li>
+	<li>Use a VPN service</li>
+	<li>If you use the Chrome Browser, you can <a href="https://developer.chrome.com/multidevice/data-compression">proxy your traffic through Google</a> (yes, then Google will see all your traffic instead).</li>
+	<li>Switch providers: Ask a friend on a different provider to hit this site and see if he/she sees any beacons</li>
+</ul>
+</p>
+
+<p class="h2">Even more information</p>
+<ul>
+	<li>Another beacon-checking site: <a href="http://lessonslearned.org/sniff">http://lessonslearned.org/sniff</a></li>
+	<li>Verizon's PrecisionID: <a href="http://adage.com/article/digital/verizon-target-mobile-subscribers-ads/293356/">http://adage.com/article/digital/verizon-target-mobile-subscribers-ads/293356/</a></li>
+	<li>AT&amp;T wants some, too: <a href="http://www.forbes.com/sites/kashmirhill/2014/10/28/att-says-its-testing-unkillable-tracker-on-customers-smartphones/">http://www.forbes.com/sites/kashmirhill/2014/10/28/att-says-its-testing-unkillable-tracker-on-customers-smartphones/</a></li>
+</ul>
+	</div>
+
 	</div>
 </div>
+<div id="footer">
+	<div class="container">
+		<p class="muted credit" style="font-size:14px">Site courtesy of <a href="https://www.netsville.com">Netsville</a> by <a href="mailto:admin@cr.yptoco.in">Micah Brandon</a>.  If you want your results as JSON, hit <a href="http://uid.ntvl.co/api">http://uid.ntvl.co/api</a>.</p>
+	</div>
+</div>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<!-- Include all compiled plugins -->
+<script src="//cdn.jsdelivr.net/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>
