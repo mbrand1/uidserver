@@ -1,16 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 from beacons import BeaconHeaders
 
-app = Flask(__name__)
+import time
 
-# Some logging
-if not app.debug:
-	import logging
-	from logging.handlers import RotatingFileHandler
-	fh = RotatingFileHandler('beacon-info.log', maxBytes=100000, backupCount=5)
-	fh.setLevel(logging.INFO)
-	fh.setFormatter(logging.Formatter('%(asctime)s %(levelname)s: %(message)s '))
-	app.logger.addHandler(fh)
+app = Flask(__name__)
 
 @app.route("/api")
 @app.route("/")
@@ -31,7 +24,11 @@ def index():
 
 	# Log the header keys only
 	if (bh.track):
-		app.logger.info('%s %s', request.remote_addr, repr(bh.data.keys()))
+		# I still can't get Flask logging to work in production under Apache, so...
+		fh = open('/home/netsville/uid/beacon-info.log','a')
+		fhout = "{} {}: {}\n".format(time.asctime(), request.remote_addr, repr(bh.data.keys()))
+		fh.write(fhout)
+		fh.close()
 
 	# See if the API path was hit -- if so, send JSON instead of a page
 	if (request.path == '/api'):
