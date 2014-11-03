@@ -1,57 +1,30 @@
 from flask import Flask, request, jsonify, render_template
+from beacons import BeaconHeaders
+
 app = Flask(__name__)
 
 @app.route("/api")
 @app.route("/")
 def index():
-	rh = request.headers
-#	print repr(rh)
+	# rh = request.headers
+	# print repr(rh)
 
-	# Beacons for testing: uncomment these to force a tracking beacon through
-	testbeacons = {
-#					'x-uidh' : "da89f98sfiasdfw-lh2345h2kj34h23k2234j2k3ljr289asfasdfasdfkasd--fas9f0asdfas",
-#					'x-acr' : "ASDHFASDFAS89DFASDFASDJKFSF0WKJWFKWklajdlfkajsdlkfjaskldjfajsdkfasdlkasdjfasdlasdkfjasdfasdlfskldjfklasjdklaiewrqwnernqwejrlbqwejrbqjkwebrjqbwerjbqweblhhhhhhhhhasuidfhasudfhasdhfasdfjwhefuiw7889wef999999999999asd8fasdf8a9sdfasd8fas9dfas89df7a89sd7f89as7dfa8sd9fas89daffdsE-JASDKFASFASDFADFA-ASDFASDFKASDFJAKLSDJFLAKSDFJASKDJFAKDFA",
-					} 
-
-	# Check for beacons
-	beacons = []
-	track = False
-	if rh.get('X-UIDH'):
-		beacons.append(rh.get('X-UIDH'))
-		track = True
-	if rh.get('X-ACR'):
-		beacons.append(rh.get('X-ACR'))
-		track = True
-	if rh.get('X-VF-ACR'):
-		beacons.append(rh.get('X-VF-ACR'))
-		track = True
-	for k, v in testbeacons.items():
-		if k == 'x-uidh':
-			beacons.append(v)
-			track = True
-		if k == 'x-acr':
-			beacons.append(v)
-			track = True
-
-	# Check do-not-track setting
-	Dnt = 'Disabled'
-	if rh.get('Dnt'):
-		Dnt = 'Enabled'
+	# Process the headers
+	bh = BeaconHeaders(request.headers)
 
 	# Put everything into simple data structure for template display
 	data = { 'ip' : request.remote_addr,
-			'useragent' : rh.get('User-Agent'),
-			'dnt' : Dnt,
-			'tracked' : track,
-			'beacons' : beacons,
-			'uidh' : rh.get('X-UIDH'),
-			'acr' : rh.get('X-ACR'),
-			'vfacr' : rh.get('X-VF-ACR'),
+			'useragent' : bh.useragent,
+			'dnt' : bh.dnt,
+			'tracked' : bh.track,
+			'beacons' : bh.values,
 			}		
 
 	# See if the API path was hit -- if so, send JSON instead of a page
 	if (request.path == '/api'):
+		# Add the specific beacons to data
 		# Render as JSON
+		data.update(bh.data)
 		return jsonify(data)
 	else:
 		# Render as HTML page

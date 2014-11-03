@@ -7,14 +7,23 @@ A Flask app that looks for tracking beacons and displays them to screen
 I'm on Debian Linux, so...
 
 1. apt-get install python-flask
-2. cd to uid directory
-3. python ./uidserver.py
+2. Download this project and uncompress it
+3. cd to uid directory
+4. python ./uidserver.py
 
 This will start up the application on your local machine on port 8080 (for testing).
 
 In order to make this work "for real", you'll need a webserver that can deploy <a href="http://wsgi.readthedocs.org/en/latest/">WSGI</a> apps. See: http://flask.pocoo.org/docs/0.10/deploying/
 
 This application *must* run on port 80.  Otherwise, you won't see any tracking beacons.  They are only injected with normal HTTP requests.
+
+## Testing
+
+Hit your local machine with a curl request and custom header like this:
+
+<code>curl -H "X-UIDH: 123456789" http://localhost:8080/api</code>
+
+Look for the X-UIDH header in the returned JSON.
 
 ## Licenses
 

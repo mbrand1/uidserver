@@ -31,6 +31,7 @@ class BeaconHeaders:
 	def __init__(self, rh):
 		self.track = False
 		self.data = {}
+		self.values = []
 		self.dnt = rh.get('Dnt') and 'Enabled' or 'Disabled'
 		self.useragent = rh.get('User-Agent')
 
