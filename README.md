@@ -1,6 +1,6 @@
 # uidserver
 
-A Flask app that looks for tracking beacons and displays them to screen
+A Flask app that looks for mobile tracking beacons and displays them.  See the running app here:  <a href="http://uid.ntvl.co">http://uid.ntvl.co</a>
 
 ## Installation
 
