@@ -1,21 +1,30 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, json, jsonify, render_template
 from beacons import BeaconHeaders
+from myhttp import MyHTTP
 
 import time
 
 app = Flask(__name__)
 
+def getNetRef(ip = None):
+	ARINURL = 'http://whois.arin.net/rest/nets;q='+ip+'?showDetails=false&showARIN=false&ext=netref2'
+	http = MyHTTP()
+	arindata = json.loads(http.get(ARINURL))
+	return arindata['nets']['ns3:netRef']['orgRef']['@name']
+	
 @app.route("/api")
 @app.route("/")
 def index():
 	# rh = request.headers
 	# print repr(rh)
+	ipowner = getNetRef(request.remote_addr) 
 
 	# Process the headers
 	bh = BeaconHeaders(request.headers)
 
 	# Put everything into simple data structure for template display
 	data = { 'ip' : request.remote_addr,
+			'ipowner' : ipowner,
 			'useragent' : bh.useragent,
 			'dnt' : bh.dnt,
 			'tracked' : bh.track,
