@@ -10,7 +10,11 @@ def getNetRef(ip = None):
 	ARINURL = 'http://whois.arin.net/rest/nets;q='+ip+'?showDetails=false&showARIN=false&ext=netref2'
 	http = MyHTTP()
 	arindata = json.loads(http.get(ARINURL))
-	return arindata['nets']['ns3:netRef']['orgRef']['@name']
+	try:
+		owner = arindata['nets']['ns3:netRef']['orgRef']['@name']
+	except TypeError:
+		owner = arindata['nets']['ns3:netRef'][0]['orgRef']['@name'] # ns3:netRef might be list. Take first ele.
+	return owner
 	
 @app.route("/api")
 @app.route("/")
